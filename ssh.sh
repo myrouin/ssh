@@ -102,6 +102,7 @@ check_tools() {
 while true; do
     echo -e "1. 检测系统信息\n"
     echo -e "2. 检测常用工具\n"
+    echo -e "3. 清空SSH命令行\n"
     read -p "请输入选项: " option
 
     case $option in
@@ -110,6 +111,9 @@ while true; do
             ;;
         2)
             check_tools
+            ;;
+        3)
+            history -c
             ;;
         *)
             echo "程序已退出"
