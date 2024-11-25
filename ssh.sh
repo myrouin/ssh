@@ -1,5 +1,4 @@
-﻿
-#!/bin/bash
+﻿#!/bin/bash
 
 # 更新软件包列表
 # sudo apt update
@@ -46,24 +45,37 @@ if [[ $check_tools == "y" ]]; then
     if [ ${#installed[@]} -eq 0 ]; then
         echo "没有已安装的工具。"
     else
-        printf '%s\n' "${installed[@]}"
+        for i in "${!installed[@]}"; do
+            echo "$((i + 1))) ${installed[i]}"
+        done
     fi
 
     echo -e "\n未安装的工具："
     if [ ${#not_installed[@]} -eq 0 ]; then
         echo "所有工具均已安装。"
     else
-        printf '%s\n' "${not_installed[@]}"
+        for i in "${!not_installed[@]}"; do
+            echo "$((i + 1))) ${not_installed[i]}"
+        done
     fi
 fi
 
 # 询问用户是否要安装未安装的工具
-read -p "是否安装未安装的工具? (y/n): " install_choice
-if [[ $install_choice == "y" ]]; then
+read -p "输入未安装工具的ID进行安装，或输入 'all' 安装所有未安装的工具: " install_choice
+
+if [[ $install_choice == "all" ]]; then
     for tool in "${not_installed[@]}"; do
         tool_name=$(echo "$tool" | cut -d' ' -f1)
         install_package "$tool_name"
     done
+else
+    index=$((install_choice - 1))
+    if [[ $index -ge 0 && $index -lt ${#not_installed[@]} ]]; then
+        tool_name=$(echo "${not_installed[$index]}" | cut -d' ' -f1)
+        install_package "$tool_name"
+    else
+        echo "无效的选择！"
+    fi
 fi
 
 # 完成
