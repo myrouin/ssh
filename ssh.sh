@@ -33,16 +33,39 @@ check_tools() {
     )
 
     echo "检测常用工具及其描述："
+    installed_tools=()
+    uninstalled_tools=()
 
     # 检测每个工具
-    for tool in "${!tools[@]}"; do
-        echo "$tool: ${tools[$tool]}"
+    for i in "${!tools[@]}"; do
+        tool="${!tools[$i]}"
+        echo "$((i + 1)). $tool: ${tools[$tool]}"
         if command -v "$tool" &> /dev/null; then
             echo "状态: 已安装"
+            installed_tools+=("$tool")
         else
             echo "状态: 未安装"
+            uninstalled_tools+=("$tool")
         fi
         echo ""  # 输出空行以便于阅读
+    done
+
+    # 处理已安装的工具
+    for tool in "${installed_tools[@]}"; do
+        read -p "是否重装 $tool? (y/n): " reinstall
+        if [[ "$reinstall" == "y" ]]; then
+            echo "正在重装 $tool..."
+            sudo apt-get install --reinstall "$tool"
+        fi
+    done
+
+    # 处理未安装的工具
+    for tool in "${uninstalled_tools[@]}"; do
+        read -p "是否安装 $tool? (y/n): " install
+        if [[ "$install" == "y" ]]; then
+            echo "正在安装 $tool..."
+            sudo apt-get install "$tool"
+        fi
     done
 }
 
@@ -73,8 +96,9 @@ while true; do
 done
 
 
+
 # 使用进程替换 <()，将 curl 下载的脚本作为临时文件执行，更稳定，适合大文件和复杂脚本
-# bash <(curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
+# bash <(curl -s https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
 
 # 使用管道 | 直接将 curl 下载的脚本传递给 bash 执行，简洁但可能不如进程替换稳定
-# curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh | bash
+# curl -s https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh | bash
