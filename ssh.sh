@@ -100,7 +100,7 @@ check_tools() {
 
 # 主菜单
 while true; do
-    echo "请选择要执行的操作：\n"
+    echo -e "请选择要执行的操作：\n"
     echo -e "1. 检测系统信息\n"
     echo -e "2. 检测常用工具\n"
     echo -e "3. 退出\n"
@@ -125,10 +125,9 @@ while true; do
 done
 # 使用进程替换 <()，将 curl 下载的脚本作为临时文件执行，更稳定，适合大文件和复杂脚本
 # bash <(curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
-# rm -f ssh.sh && bash <(curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
+
 
 # 使用管道 | 直接将 curl 下载的脚本传递给 bash 执行，简洁但可能不如进程替换稳定
 # curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh | bash
-# curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh -o /tmp/ssh.sh
 
-# curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh -o /tmp/ssh.sh && bash /tmp/ssh.sh
+# rm -f /tmp/ssh.sh && curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh -o /tmp/ssh.sh && bash /tmp/ssh.sh
