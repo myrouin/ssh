@@ -54,11 +54,7 @@ check_tools() {
     done
 
     # 提供用户选择
-    read -p "请输入工具ID, 以进行（安装/卸载/重装）操作，或输入 'exit' 退出: " tool_id
-
-    if [[ "$tool_id" == "exit" ]]; then
-        return
-    fi
+    read -p "请输入工具ID, 进行（安装/卸载/重装）操作: " tool_id
 
     # 根据输入的ID查找工具名称
     tool_name=$(echo "${!tools[@]}" | cut -d' ' -f"$tool_id")
@@ -94,7 +90,7 @@ check_tools() {
             esac
         fi
     else
-        echo "未找到该工具，请检查输入。"
+        echo "无效命令，已退出。"
     fi
 }
 
@@ -129,4 +125,4 @@ done
 # 使用管道 | 直接将 curl 下载的脚本传递给 bash 执行，简洁但可能不如进程替换稳定
 # curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh | bash
 
-# rm -f /tmp/ssh.sh && curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh -o /tmp/ssh.sh && bash /tmp/ssh.sh
+# curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh -o /tmp/ssh.sh && bash /tmp/ssh.sh && rm -f /tmp/ssh.sh
