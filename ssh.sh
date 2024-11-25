@@ -90,7 +90,7 @@ check_tools() {
             esac
         fi
     else
-        echo "无效命令，已退出。"
+        echo "无效命令，程序已退出。"
     fi
 }
 
@@ -100,7 +100,7 @@ while true; do
     echo -e "2. 检测常用工具\n"
     echo -e "3. 清空SSH命令行\n"
     read -p "请输入选项: " option
-
+    echo
     case $option in
         1)
             check_system
@@ -112,7 +112,7 @@ while true; do
             history -c
             ;;
         *)
-            echo "程序已退出"
+            echo "无效命令，程序已退出。"
             exit 0
             ;;
     esac
