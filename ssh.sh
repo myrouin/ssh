@@ -93,9 +93,6 @@ while true; do
     esac
     echo ""  # 输出空行以便于阅读
 done
-
-
-
 # 使用进程替换 <()，将 curl 下载的脚本作为临时文件执行，更稳定，适合大文件和复杂脚本
 # bash <(curl -s https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
 
