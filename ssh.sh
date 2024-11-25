@@ -5,6 +5,7 @@
 # sudo apt update
 
 echo "ssh使用时命令"
+echo "ssh使用时命令"
 
 # 安装 curl
 read -p "安装 curl（命令行工具，用于通过 URL 进行数据传输）? (y/n): " install_curl
