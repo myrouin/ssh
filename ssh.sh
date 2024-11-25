@@ -4,44 +4,66 @@
 # 更新软件包列表
 # sudo apt update
 
-echo "ssh使用时命令"
-echo "ssh使用时命令"
-echo "ssh使用时命令"
+# 定义安装函数
+install_package() {
+    local package_name=$1
+    sudo apt install -y "$package_name"
+}
 
-# 安装 curl
-read -p "安装 curl（命令行工具，用于通过 URL 进行数据传输）? (y/n): " install_curl
-if [[ $install_curl == "y" ]]; then
-    sudo apt install -y curl
+# 定义工具列表
+declare -A tools
+tools=(
+    ["curl"]="命令行工具，用于通过 URL 进行数据传输"
+    ["git"]="分布式版本控制系统，用于跟踪文件的更改"
+    ["python3-pip"]="Python 的包管理工具"
+    ["nodejs"]="Node.js 的包管理工具"
+    ["npm"]="Node.js 的包管理工具"
+    ["snapd"]="软件包管理系统"
+    ["vim"]="功能强大的命令行文本编辑器"
+)
+
+# 检测已安装的工具
+check_installed_tools() {
+    installed=()
+    not_installed=()
+    
+    for tool in "${!tools[@]}"; do
+        if command -v "$tool" &> /dev/null; then
+            installed+=("$tool - ${tools[$tool]}")
+        else
+            not_installed+=("$tool - ${tools[$tool]}")
+        fi
+    done
+}
+
+# 询问用户是否检测常用工具
+read -p "是否检测常用工具? (y/n): " check_tools
+if [[ $check_tools == "y" ]]; then
+    check_installed_tools
+
+    # 显示已安装和未安装的工具列表
+    echo -e "\n已安装的工具："
+    if [ ${#installed[@]} -eq 0 ]; then
+        echo "没有已安装的工具。"
+    else
+        printf '%s\n' "${installed[@]}"
+    fi
+
+    echo -e "\n未安装的工具："
+    if [ ${#not_installed[@]} -eq 0 ]; then
+        echo "所有工具均已安装。"
+    else
+        printf '%s\n' "${not_installed[@]}"
+    fi
 fi
 
-# 安装 git
-read -p "安装 git（分布式版本控制系统，用于跟踪文件的更改）? (y/n): " install_git
-if [[ $install_git == "y" ]]; then
-    sudo apt install -y git
-fi
-
-# 安装 pip
-read -p "安装 pip（Python 的包管理工具）? (y/n): " install_pip
-if [[ $install_pip == "y" ]]; then
-    sudo apt install -y python3-pip
-fi
-
-# 安装 npm（Node.js 和 npm）
-read -p "安装 npm（Node.js 的包管理工具）? (y/n): " install_npm
-if [[ $install_npm == "y" ]]; then
-    sudo apt install -y nodejs npm
-fi
-
-# 安装 snapd
-read -p "安装 snap（软件包管理系统）? (y/n): " install_snap
-if [[ $install_snap == "y" ]]; then
-    sudo apt install -y snapd
-fi
-
-# 安装 vim
-read -p "安装 vim（功能强大的命令行文本编辑器）? (y/n): " install_vim
-if [[ $install_vim == "y" ]]; then
-    sudo apt install -y vim
+# 询问用户是否要安装未安装的工具
+read -p "是否安装未安装的工具? (y/n): " install_choice
+if [[ $install_choice == "y" ]]; then
+    for tool in "${not_installed[@]}"; do
+        tool_name=$(echo "$tool" | cut -d' ' -f1)
+        install_package "$tool_name"
+    done
 fi
 
 # 完成
