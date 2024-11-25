@@ -9,6 +9,7 @@ echo -e "=======================================================================
 
 # 函数：检测 Linux 系统类型和版本
 check_system() {
+    echo -e "--------------------------------------------------------------------------\n"
     echo -n "系统: 正在检测当前系统..."
     if [ -f /etc/os-release ]; then
         . /etc/os-release
@@ -110,7 +111,8 @@ while true; do
             check_tools
             ;;
         3)
-            history -c
+            tput clear
+            # history -c
             ;;
         *)
             echo "无效命令，程序已退出。"
