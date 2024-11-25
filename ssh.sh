@@ -49,7 +49,7 @@ check_tools() {
         else
             status="未安装"
         fi
-        echo "$id: $status $tool: ${tools[$tool]}"
+        echo -e "$id: $status $tool: ${tools[$tool]}\n"
         ((id++))
     done
 
