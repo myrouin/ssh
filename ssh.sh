@@ -81,9 +81,13 @@ fi
 
 # 完成
 echo "安装过程已完成！"
+echo "安装过程已完成！"
 
 # 下载并运行最新的脚本
 # bash <(curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
 
 # 这种是不好的, 会变成下载, 也就导致无法使用最新更新
 # curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/.sh | bash
+
+# 每次都下载最新的脚本并覆盖原有的文件，
+# curl -o latest_script.sh -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh && bash latest_script.sh
