@@ -45,7 +45,7 @@ check_tools() {
     id=1
     for tool in "${!tools[@]}"; do
         if command -v "$tool" &> /dev/null; then
-            status="(已安装)"
+            # status="(已安装)"
         else
             status="(未安装)"
         fi
