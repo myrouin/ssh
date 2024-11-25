@@ -15,116 +15,104 @@ check_system() {
     fi
 }
 
-# 函数：检测工具的安装状态
+# 函数：检测常用工具及其描述
 check_tools() {
-    local tools
-    tools=$(define_tools)
-    local installed_tools=()
-    local uninstalled_tools=()
-    local tool_ids=()
+    # 定义常用工具及其描述
+    declare -A tools
+    tools=(
+        ["curl"]="一个命令行工具，用于与服务器进行数据传输，支持多种协议。"
+        ["wget"]="一个用于从网络上下载文件的命令行工具，支持递归下载和断点续传。"
+        ["git"]="一个分布式版本控制系统，用于跟踪文件的更改，特别是源代码。"
+        ["vim"]="一个强大的文本编辑器，适用于编程和文本编辑，功能丰富。"
+        ["nano"]="一个简单易用的文本编辑器，适合初学者和快速编辑。"
+        ["htop"]="一个交互式进程查看器，提供系统资源使用情况的实时监控。"
+        ["docker"]="一个用于自动化应用程序部署的容器化平台。"
+        ["python3"]="Python 编程语言的版本，广泛用于开发和脚本编写。"
+        ["node"]="JavaScript 运行时，常用于构建网络应用。"
+        ["java"]="一种广泛使用的编程语言，适用于多种平台。"
+    )
 
     echo "检测常用工具及其描述："
-    
-    for tool in ${!tools[@]}; do
+
+    # 检测每个工具
+    for tool in "${!tools[@]}"; do
         if command -v "$tool" &> /dev/null; then
-            installed_tools+=("$tool")
-            echo "id (${#installed_tools[@]}) 已安装 $tool: ${tools[$tool]}"
+            status="已安装"
         else
-            uninstalled_tools+=("$tool")
-            echo "id ($(( ${#installed_tools[@]} + ${#uninstalled_tools[@]} )) ) 未安装 $tool: ${tools[$tool]}"
+            status="未安装"
         fi
-        tool_ids+=("$tool")
+        echo "$tool: $status ${tools[$tool]}"
     done
 
-    handle_tool_selection tool_ids installed_tools
-}
+    # 提供用户选择
+    read -p "请输入工具的名称以进行操作（安装/卸载/重装），或输入 'exit' 退出: " tool_name
 
-# 函数：处理工具选择
-handle_tool_selection() {
-    local tool_ids=("$@")
-    read -p "请输入id选择工具: " id
+    if [[ "$tool_name" == "exit" ]]; then
+        return
+    fi
 
-    if [[ "$id" =~ ^[0-9]+$ ]] && [ "$id" -ge 1 ] && [ "$id" -le "${#tool_ids[@]}" ]; then
-        local tool="${tool_ids[$id-1]}"
-        if [[ " ${installed_tools[*]} " =~ " $tool " ]]; then
-            manage_installed_tool "$tool"
+    if [[ -n "${tools[$tool_name]}" ]]; then
+        if command -v "$tool_name" &> /dev/null; then
+            echo "$tool_name 已安装。"
+            read -p "选择操作: 1. 卸载 2. 重装: " action
+            case $action in
+                1)
+                    echo "正在卸载 $tool_name..."
+                    sudo apt remove -y "$tool_name"  # 适用于 Debian/Ubuntu 系统
+                    ;;
+                2)
+                    echo "正在重装 $tool_name..."
+                    sudo apt install --reinstall -y "$tool_name"  # 适用于 Debian/Ubuntu 系统
+                    ;;
+                *)
+                    echo "无效选项。"
+                    ;;
+            esac
         else
-            install_tool "$tool"
+            echo "$tool_name 未安装。"
+            read -p "选择操作: 1. 安装: " action
+            case $action in
+                1)
+                    echo "正在安装 $tool_name..."
+                    sudo apt install -y "$tool_name"  # 适用于 Debian/Ubuntu 系统
+                    ;;
+                *)
+                    echo "无效选项。"
+                    ;;
+            esac
         fi
     else
-        echo "无效的ID，请输入正确的ID。"
-    fi
-}
-
-# 函数：管理已安装工具
-manage_installed_tool() {
-    local tool="$1"
-    echo "$tool 已安装。请选择操作："
-    echo "1. 卸载"
-    echo "2. 重装"
-    read -p "请输入选项 (1/2): " option
-    case $option in
-        1)
-            echo "正在卸载 $tool..."
-            sudo apt-get remove "$tool"
-            ;;
-        2)
-            echo "正在重装 $tool..."
-            sudo apt-get install --reinstall "$tool"
-            ;;
-        *)
-            echo "无效选项，请输入 1 或 2。"
-            ;;
-    esac
-}
-
-# 函数：安装未安装的工具
-install_tool() {
-    local tool="$1"
-    echo "$tool 未安装。是否安装？"
-    echo "1. 安装"
-    read -p "请输入选项 (1): " option
-    if [ "$option" == "1" ]; then
-        echo "正在安装 $tool..."
-        sudo apt-get install "$tool"
-    else
-        echo "无效选项，请输入 1。"
+        echo "未找到该工具，请检查输入。"
     fi
 }
 
 # 主菜单
-main_menu() {
-    while true; do
-        echo "请选择要执行的操作："
-        echo "1. 检测系统信息"
-        echo "2. 检测常用工具"
-        echo "3. 退出"
-        read -p "请输入选项 (1-3): " option
+while true; do
+    echo "请选择要执行的操作："
+    echo "1. 检测系统信息"
+    echo "2. 检测常用工具"
+    echo "3. 退出"
+    read -p "请输入选项 (1-3): " option
 
-        case $option in
-            1)
-                check_system
-                ;;
-            2)
-                check_tools
-                ;;
-            3)
-                echo "退出程序。"
-                exit 0
-                ;;
-            *)
-                echo "无效选项，请输入 1、2 或 3。"
-                ;;
-        esac
-        echo ""  # 输出空行以便于阅读
-    done
-}
-
-# 执行主菜单
-main_menu
-
+    case $option in
+        1)
+            check_system
+            ;;
+        2)
+            check_tools
+            ;;
+        3)
+            echo "退出程序。"
+            exit 0
+            ;;
+        *)
+            echo "无效选项，请输入 1、2 或 3。"
+            ;;
+    esac
+    echo ""  # 输出空行以便于阅读
+done
 # 使用进程替换 <()，将 curl 下载的脚本作为临时文件执行，更稳定，适合大文件和复杂脚本
-# bash <(curl -s https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
+# bash <(curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
 
 # 使用管道 | 直接将 curl 下载的脚本传递给 bash 执行，简洁但可能不如进程替换稳定
-# curl -s https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh | bash
+# curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh | bash
