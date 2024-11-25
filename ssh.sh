@@ -54,7 +54,7 @@ check_tools() {
     done
 
     # 提供用户选择
-    read -p "请输入工具的编号以进行操作（安装/卸载/重装），或输入 'exit' 退出: " tool_id
+    read -p "请输入工具ID, 以进行（安装/卸载/重装）操作，或输入 'exit' 退出: " tool_id
 
     if [[ "$tool_id" == "exit" ]]; then
         return
