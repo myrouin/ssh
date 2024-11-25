@@ -34,15 +34,27 @@ define_tools() {
 
 # 函数：检测工具的安装状态
 check_tools() {
-    local tools
-    tools=$(define_tools)
+    declare -A tools
+    tools=(
+        ["curl"]="一个命令行工具，用于与服务器进行数据传输，支持多种协议。"
+        ["wget"]="一个用于从网络上下载文件的命令行工具，支持递归下载和断点续传。"
+        ["git"]="一个分布式版本控制系统，用于跟踪文件的更改，特别是源代码。"
+        ["vim"]="一个强大的文本编辑器，适用于编程和文本编辑，功能丰富。"
+        ["nano"]="一个简单易用的文本编辑器，适合初学者和快速编辑。"
+        ["htop"]="一个交互式进程查看器，提供系统资源使用情况的实时监控。"
+        ["docker"]="一个用于自动化应用程序部署的容器化平台。"
+        ["python3"]="Python 编程语言的版本，广泛用于开发和脚本编写。"
+        ["node"]="JavaScript 运行时，常用于构建网络应用。"
+        ["java"]="一种广泛使用的编程语言，适用于多种平台。"
+    )
+
+    echo "检测常用工具及其描述："
     local installed_tools=()
     local uninstalled_tools=()
     local tool_ids=()
 
-    echo "检测常用工具及其描述："
-    
-    for tool in ${!tools[@]}; do
+    # 检测每个工具
+    for tool in "${!tools[@]}"; do
         if command -v "$tool" &> /dev/null; then
             installed_tools+=("$tool")
             echo "id (${#installed_tools[@]}) 已安装 $tool: ${tools[$tool]}"
@@ -55,6 +67,7 @@ check_tools() {
 
     handle_tool_selection tool_ids installed_tools
 }
+
 
 # 函数：处理工具选择
 handle_tool_selection() {
