@@ -100,11 +100,9 @@ check_tools() {
 
 # 主菜单
 while true; do
-    echo -e "请选择要执行的操作：\n"
     echo -e "1. 检测系统信息\n"
     echo -e "2. 检测常用工具\n"
-    echo -e "3. 退出\n"
-    read -p "请输入选项 (1-3): " option
+    read -p "请输入选项: " option
 
     case $option in
         1)
@@ -114,7 +112,7 @@ while true; do
             check_tools
             ;;
         *)
-            echo "退出程序: 任意"
+            echo "程序已退出"
             exit 0
             ;;
     esac
