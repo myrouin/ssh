@@ -34,24 +34,29 @@ check_tools() {
 
     echo "检测常用工具及其描述："
 
-    # 检测每个工具
+    # 动态生成工具的ID并检测每个工具
+    id=1
     for tool in "${!tools[@]}"; do
         if command -v "$tool" &> /dev/null; then
             status="已安装"
         else
             status="未安装"
         fi
-        echo "$tool: $status ${tools[$tool]}"
+        echo "$id: $status $tool: ${tools[$tool]}"
+        ((id++))
     done
 
     # 提供用户选择
-    read -p "请输入工具的名称以进行操作（安装/卸载/重装），或输入 'exit' 退出: " tool_name
+    read -p "请输入工具的编号以进行操作（安装/卸载/重装），或输入 'exit' 退出: " tool_id
 
-    if [[ "$tool_name" == "exit" ]]; then
+    if [[ "$tool_id" == "exit" ]]; then
         return
     fi
 
-    if [[ -n "${tools[$tool_name]}" ]]; then
+    # 根据输入的ID查找工具名称
+    tool_name=$(echo "${!tools[@]}" | cut -d' ' -f"$tool_id")
+
+    if [[ -n "$tool_name" ]]; then
         if command -v "$tool_name" &> /dev/null; then
             echo "$tool_name 已安装。"
             read -p "选择操作: 1. 卸载 2. 重装: " action
