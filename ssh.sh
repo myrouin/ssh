@@ -37,9 +37,8 @@ check_tools() {
     uninstalled_tools=()
 
     # 检测每个工具
-    for i in "${!tools[@]}"; do
-        tool="${!tools[$i]}"
-        echo "$((i + 1)). $tool: ${tools[$tool]}"
+    for tool in "${!tools[@]}"; do
+        echo "$tool: ${tools[$tool]}"
         if command -v "$tool" &> /dev/null; then
             echo "状态: 已安装"
             installed_tools+=("$tool")
