@@ -13,7 +13,7 @@ check_system() {
     echo -e "系统: 正在检测当前系统...\n"
     if [ -f /etc/os-release ]; then
         . /etc/os-release
-        tput cuu1  # 光标上移一行
+        tput cuu1  # 光标上移一行 
         tput el     # 清除当前行
         echo "系统: $NAME $VERSION"
     else
