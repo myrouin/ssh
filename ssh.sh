@@ -7,9 +7,14 @@ echo -e "=                欢迎使用 Rouin-Linux 工具                       
 echo -e "=                                                                        ="
 echo -e "==========================================================================\n"
 
+split(){
+    echo -e "\n--------------------------------------------------\n"
+}
+
+
 # 函数：检测 Linux 系统类型和版本
 check_system() {
-    echo -e "\n--------------------------------------------------------------------------\n\n"
+    
     if [ -f /etc/os-release ]; then
         . /etc/os-release
         tput cuu1  # 光标上移一行
@@ -38,7 +43,6 @@ check_tools() {
         ["node"]="JavaScript 运行时，常用于构建网络应用。"
         ["java"]="一种广泛使用的编程语言，适用于多种平台。"
     )
-    echo -e "\n--------------------------------------------------------------------------\n\n"
     echo -e "检测常用工具：\n"
 
     # 动态生成工具的ID并检测每个工具
@@ -104,14 +108,17 @@ while true; do
     echo
     case $option in
         1)
+            split
             check_system
+            split
             ;;
         2)
+            split
             check_tools
+            split
             ;;
         3)
             tput clear
-            # history -c
             ;;
         *)
             echo "无效命令，程序已退出。"
