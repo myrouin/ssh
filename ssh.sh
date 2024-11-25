@@ -3,7 +3,7 @@
 echo # 进行换行
 echo -e "=========================================================================="
 echo -e "=                                                                        ="
-echo -e "=                欢迎使用 Rouin-Linux 工具                                 ="
+echo -e "=                欢迎使用 Rouin-Linux 工具                               ="
 echo -e "=                                                                        ="
 echo -e "==========================================================================\n"
 echo # 进行换行
@@ -130,3 +130,6 @@ done
 
 # 使用管道 | 直接将 curl 下载的脚本传递给 bash 执行，简洁但可能不如进程替换稳定
 # curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh | bash
+# curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh -o /tmp/ssh.sh
+
+# curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh -o /tmp/ssh.sh && bash /tmp/ssh.sh
