@@ -1,4 +1,4 @@
-﻿# curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/.sh | bash
+﻿
 #!/bin/bash
 
 # 更新软件包列表
@@ -42,3 +42,6 @@ fi
 
 # 完成
 echo "安装过程已完成！"
+
+# ssh使用时命令
+# curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/.sh | bash
