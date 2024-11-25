@@ -6,7 +6,6 @@ echo -e "=                                                                      
 echo -e "=                欢迎使用 Rouin-Linux 工具                               ="
 echo -e "=                                                                        ="
 echo -e "==========================================================================\n"
-echo # 进行换行
 
 # 函数：检测 Linux 系统类型和版本
 check_system() {
@@ -101,10 +100,10 @@ check_tools() {
 
 # 主菜单
 while true; do
-    echo "请选择要执行的操作："
-    echo "1. 检测系统信息"
-    echo "2. 检测常用工具"
-    echo "3. 退出"
+    echo "请选择要执行的操作：\n"
+    echo -e "1. 检测系统信息\n"
+    echo -e "2. 检测常用工具\n"
+    echo -e "3. 退出\n"
     read -p "请输入选项 (1-3): " option
 
     case $option in
