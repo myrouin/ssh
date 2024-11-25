@@ -38,16 +38,16 @@ check_tools() {
         ["node"]="JavaScript 运行时，常用于构建网络应用。"
         ["java"]="一种广泛使用的编程语言，适用于多种平台。"
     )
-
-    echo -e "\n检测常用工具及其描述：\n"
+    echo -e "\n--------------------------------------------------------------------------\n"
+    echo -e "检测常用工具：\n"
 
     # 动态生成工具的ID并检测每个工具
     id=1
     for tool in "${!tools[@]}"; do
         if command -v "$tool" &> /dev/null; then
-            status="已安装"
+            status="(已安装)"
         else
-            status="未安装"
+            status="(未安装)"
         fi
         echo -e "$id: $status $tool: ${tools[$tool]}\n"
         ((id++))
@@ -113,12 +113,9 @@ while true; do
         2)
             check_tools
             ;;
-        3)
-            echo "退出程序。"
-            exit 0
-            ;;
         *)
-            echo "无效选项，请输入 1、2 或 3。"
+            echo "退出程序: 任意"
+            exit 0
             ;;
     esac
     echo ""  # 输出空行以便于阅读
