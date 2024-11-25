@@ -1,5 +1,13 @@
 ﻿#!/bin/bash
 
+echo # 进行换行
+echo -e "=========================================================================="
+echo -e "=                                                                        ="
+echo -e "=                欢迎使用 Rouin-Linux 工具                                 ="
+echo -e "=                                                                        ="
+echo -e "==========================================================================\n"
+echo # 进行换行
+
 # 函数：检测 Linux 系统类型和版本
 check_system() {
     echo -n "系统: 正在检测当前系统..."
@@ -118,6 +126,7 @@ while true; do
 done
 # 使用进程替换 <()，将 curl 下载的脚本作为临时文件执行，更稳定，适合大文件和复杂脚本
 # bash <(curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
+# rm -f ssh.sh && bash <(curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
 
 # 使用管道 | 直接将 curl 下载的脚本传递给 bash 执行，简洁但可能不如进程替换稳定
 # curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh | bash
