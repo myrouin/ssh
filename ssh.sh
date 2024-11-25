@@ -6,6 +6,7 @@
 
 echo "ssh使用时命令"
 echo "ssh使用时命令"
+echo "ssh使用时命令"
 
 # 安装 curl
 read -p "安装 curl（命令行工具，用于通过 URL 进行数据传输）? (y/n): " install_curl
@@ -46,5 +47,8 @@ fi
 # 完成
 echo "安装过程已完成！"
 
-# ssh使用时命令
+# 这种是不好的, 会变成下载, 也就导致无法使用最新更新
 # curl -sSL https://raw.githubusercontent.com/myrouin/ssh/main/.sh | bash
+
+# 这种比较好
+# bash <(curl -s https://raw.githubusercontent.com/myrouin/ssh/main/ssh.sh)
